@@ -1,32 +1,33 @@
+import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
-
+import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NavMenuComponent } from './nav-menu/nav-menu.component';
-import { HomeComponent } from './home/home.component';
-import { CounterComponent } from './counter/counter.component';
-import { FetchDataComponent } from './fetch-data/fetch-data.component';
+import { HeaderComponent } from './common/header/header.component';
+import {  HttpClientModule } from '@angular/common/http';
+import { NgxUiLoaderModule } from 'ngx-ui-loader';
+import { TinymceModule } from 'angular2-tinymce';
+import { ModalModule } from 'angular-custom-modal';
+import { ModalDialogModule } from 'ngx-modal-dialog';
+import { NotifierModule } from 'angular-notifier';
+import { SidebarComponent } from './common/sidebar/sidebar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavMenuComponent,
-    HomeComponent,
-    CounterComponent,
-    FetchDataComponent
+    HeaderComponent,
+    SidebarComponent
   ],
   imports: [
-    BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
+    BrowserModule,
+    AppRoutingModule,
+    TinymceModule.withConfig({}),
+    AngularFontAwesomeModule,
     HttpClientModule,
-    FormsModule,
-    RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'counter', component: CounterComponent },
-      { path: 'fetch-data', component: FetchDataComponent },
-    ])
+    NgxUiLoaderModule,
+    NotifierModule,
+    ModalDialogModule.forRoot(),
+    ModalModule
   ],
   providers: [],
   bootstrap: [AppComponent]

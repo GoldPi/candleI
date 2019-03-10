@@ -1,0 +1,89 @@
+<div class="row">
+  <div class="col-md-6 ">
+    <div class="row pt-4">
+      <div class="col-12">
+        <h3 class="headline">Add New Designation</h3>
+        <form [formGroup]="designationForm">
+          <div class="form-group row">
+            <label for="eventGuestName" class="col-sm-2 col-form-label">Designation</label>
+            <div class="col-sm-10">
+              <input [ngClass]="{ 'is-invalid': saved && f.DesignationTitle.errors,  'is-valid': !f.DesignationTitle.errors}"
+                formControlName="DesignationTitle" type="text" class="form-control" id="personDesignationTitle"
+                placeholder="Designation">
+              <div *ngIf="saved && f.DesignationTitle.errors" class="invalid-feedback">
+                <div *ngIf="f.DesignationTitle.errors.required">Title is required</div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="eventGuestDesignation" class="col-sm-2 col-form-label">Designation Abbreviation</label>
+            <div class="col-sm-10">
+              <input [ngClass]="{ 'is-invalid': saved && f.TitleAbbreviation.errors,  'is-valid': !f.TitleAbbreviation.errors}"
+                formControlName="TitleAbbreviation" type="text" class="form-control" id="eventTitleAbbreviation"
+                placeholder="Abbreviation of Designation">
+              <div *ngIf="saved && f.TitleAbbreviation.errors" class="invalid-feedback">
+                <div *ngIf="f.TitleAbbreviation.errors.required">Title is required</div>
+              </div>
+            </div>
+          </div>
+
+          <button type="button" class="btn btn-primary  pull-right" (click)="addOrEdit()">
+            <span *ngIf="!designationForm.value.Id">Save</span>
+            <span *ngIf="designationForm.value.Id">Update</span>
+          </button>
+          <button *ngIf="designationForm.value.Id" type="button" class="btn bg-dark text-white  pull-right mr-2" (click)="clearEdit()">
+              Cancel
+            </button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6 pt-4">
+    <h3 class="headline">Available Designations</h3>
+    <ngx-sortable [items]="items" [listStyle]="listStyle" [name]="" (listSorted)="listOrderChanged($event)">
+      <ng-template let-item>
+        <div class="sortable-list-item">
+          <button type="button" class="close" aria-label="Close" (click)="delete(item)">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <button type="button" class="btn btn-sm btn-success" aria-label="Close" (click)="edit(item)">
+            <i class="fa fa-edit"></i>
+          </button>
+          {{item.DesignationTitle }} ({{item.TitleAbbreviation}})
+        </div>
+      </ng-template>
+    </ngx-sortable>
+
+    <div class="pt-4" *ngIf="IsListShorted">
+      <div class="alert alert-warning">
+        Please save the list to take affect. To cancel <a href="javascript:void(0);" (click)="cancelSorting()">Click
+          Here</a>
+      </div>
+      <button type="button" class="btn btn-primary  pull-right" (click)="saveShorting()">Save List</button>
+    </div>
+
+  </div>
+</div>
+
+
+<modal #htmlInsideModal class="danger">
+  <ng-template #modalHeader>
+    <h2>Are you sure?</h2>
+  </ng-template>
+  <ng-template #modalBody>
+    Are you sure you want to delete the designation <span *ngIf="deleteItem" class="text-danger">{{deleteItem.DesignationTitle}}</span>.
+    Once deleted can't be recovered.
+  </ng-template>
+
+  <ng-template #modalFooter>
+    <button class="btn btn-primary  pull-right" (click)="deleteConfirm()">Confirm</button>
+  </ng-template>
+</modal>
+
+<!-- <div>
+      <ul>
+        <li *ngFor="let item of sortedItems">
+          {{item.SortOrder}} {{item.DesignationTitle}} ({{item.TitleAbbreviation}})
+        </li>
+      </ul>
+    </div> -->

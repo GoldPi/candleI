@@ -1,0 +1,121 @@
+
+<div class="row pt-4">
+  <div class="col-12">
+      <h3 class="headline text-center">Add New Event</h3>
+      <div class="clearfix"></div>
+    </div>
+</div>
+
+<div class="row justify-content-center align-items-center">
+
+
+  <div class="col-10">
+    <form [formGroup]="addFrom" (ngSubmit)="onSubmit()">
+        <h5 class="sub-headline headline">Event Details</h5>
+
+      <div class="form-group row" >
+        <label for="Title" class="col-sm-2 col-form-label">Event Title</label>
+        <div class="col-sm-10">
+          <input type="text" formControlName="Title" class="form-control" id="Title" placeholder="Event Title" [ngClass]="{ 'is-invalid': submitted && f.Title.errors }" />
+          <div *ngIf="submitted && f.Title.errors" class="invalid-feedback">
+            <div *ngIf="f.Title.errors.required">Title is required</div>
+        </div>
+        </div>
+    </div>
+      <div class="form-group row">
+        <label for="eventStar" class="col-sm-2 col-form-label">Event Type</label>
+        <div class="col-sm-10">
+          <select class="form-control">
+            <option *ngFor="let item of  eventType.values()" [value]="item">{{item.replace('_',' ')}}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group row">
+          <label for="eventDateStart" class="col-sm-2 col-form-label">Event On</label>
+          <div class="col-sm-10">
+            <input type="date" class="form-control" id="eventDateOn" placeholder="Event Date">
+          </div>
+        </div>
+      <div class="form-group row">
+        <label for="eventDateStart" class="col-sm-2 col-form-label">Event Date (Start)</label>
+        <div class="col-sm-10">
+          <input type="datetime-local" class="form-control" id="eventDateStart" placeholder="Event Start Time">
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="eventDateEnd" class="col-sm-2 col-form-label">Event Date (End)</label>
+        <div class="col-sm-10">
+          <input type="datetime-local" class="form-control" id="eventDateEnd" placeholder="Event End On">
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="eventVenue" class="col-sm-2 col-form-label">Venue</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="eventVenue" placeholder="Event Venue">
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="eventCity" class="col-sm-2 col-form-label">City</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="eventCity" placeholder="Event City">
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="eventState" class="col-sm-2 col-form-label">State</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="eventState" placeholder="Event State">
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="eventName" class="col-sm-2 col-form-label">Event Details</label>
+        <div class="col-sm-10">
+          <!-- <input type="text" class="form-control" id="eventName" placeholder="Event Name"> -->
+          <app-tinymce></app-tinymce>
+        </div>
+      </div>
+      <h5 class="sub-headline headline">Host Details</h5>
+
+      <div class="form-group row">
+          <label for="eventName" class="col-sm-2 col-form-label">Host Name</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="eventHostName" placeholder="Host Name">
+          </div>
+      </div>
+
+      <div class="form-group row">
+          <label for="eventName" class="col-sm-2 col-form-label">Mobile No.</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="eventHostMobileNo" placeholder="Host Mobile No.">
+          </div>
+      </div>
+      <div class="form-group row">
+          <label for="eventGuestDesignation" class="col-sm-2 col-form-label">Designation</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="eventGuestDesignation" placeholder="Designation">
+          </div>
+        </div>
+      <button type="button" (click)="onSubmit()"  class="btn btn-primary btn-lg pull-right" >Next</button>
+
+    </form>
+
+  </div>
+
+
+  <!-- <div class="col-5">
+    <div class="preview-container">
+
+    </div>
+
+  </div> -->
+
+</div>
+
+<!-- @Yusuf
+http://jasonwatmore.com/post/2018/11/07/angular-7-reactive-forms-validation-example #}
+-->

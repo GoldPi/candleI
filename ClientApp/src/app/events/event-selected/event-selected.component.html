@@ -1,0 +1,363 @@
+<div class="row bg-light pt-2 pb-4">
+  <div class="col-5">
+
+    <h3 class="d-block text-left">
+      {{eventType.value(event.EventType)}} of {{ event.Star }}
+      <small class="d-block text-left">
+        <label class="badge badge-primary">at {{ event.Venue }}, {{ event.City }}, {{ event.State }}</label>
+      </small>
+    </h3>
+  </div>
+  <div class="col-2  text-center hosted-by">
+    <img src="http://placehold.jp/10/e0a70b/ffffff/70x70.png?text=HOSTED%20BY" alt="Hosted By" class="rounded-circle" />
+  </div>
+  <div class="col-5">
+
+    <h3 class="d-block text-right">
+      {{event.Host[0].Name}}
+
+
+
+      <small class="d-block text-right">
+        <a href='tel:{{ event.Host[0].MobileNo}}' class="badge badge-primary">{{ event.Host[0].MobileNo }}</a>
+      </small>
+    </h3>
+  </div>
+
+  <div class="col-12">
+    <div class="card bg-light rounded-0">
+      <div class="card-body p-2" [innerHTML]="event.Description">
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row pt-3 pb-3">
+  <div class="col-md-4">
+    <!-- <div class="image-preview" [style.background]="'url('+event.imageUrl+')'" > -->
+
+    <table class="table table-bordered table-compact table-striped">
+
+      <tr>
+        <th>Event Type</th>
+        <td>{{eventType.value(event.EventType)}}
+          <div class="pull-right">
+            <a href="#" class="p-2 " title="Download Event Details"> <i class="fa fa-edit fa-2x"></i></a>
+            <a href="#" class="p-2 " title="Download Event Details"> <i class="fa fa-download fa-2x"></i></a>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <th>Event Date</th>
+        <td>{{event.OnDate | date: 'dd LLLL, yyyy' }}</td>
+      </tr>
+
+
+      <tr class="bg-dark text-white text-center">
+        <th colspan="2">
+          <i class="fa fa-video-camera text-success"></i>
+          Live Details
+        </th>
+      </tr>
+
+      <tr class="bg-dark text-white text-center">
+        <th>URL</th>
+        <td>
+          <a href="#" class="text-info">Click to View Live Preview</a>
+        </td>
+      </tr>
+      <tr class="bg-dark text-white text-center">
+        <th>Start On</th>
+        <td>
+          {{ event.DateTimeStart | date: 'dd LLLL, yyyy'}}
+          ({{ event.DateTimeStart | date : 'EEEE' }})
+          <span class="badge badge-success">
+            {{ event.DateTimeStart | date: 'hh:mm a'}}
+          </span>
+        </td>
+      </tr>
+
+      <tr class="bg-dark text-white text-center">
+        <th>End On</th>
+        <td>
+          {{ event.DateTimeEnd | date: 'dd LLLL, yyyy'}}
+          ({{ event.DateTimeEnd | date : 'EEEE' }})
+          <span class="badge badge-danger">
+            {{ event.DateTimeEnd | date: 'hh:mm a'}}
+          </span>
+        </td>
+      </tr>
+
+      <tr>
+        <th>Title</th>
+        <td>{{ event.Title }}</td>
+      </tr>
+      <tr>
+        <th>Star</th>
+        <td>{{ event.Star }} </td>
+      </tr>
+      <tr>
+        <th>Venue</th>
+        <td>{{ event.Venue }}</td>
+      </tr>
+
+
+
+      <tr>
+        <th>Landmark</th>
+        <td> {{ event.Landmark }} </td>
+      </tr>
+      <tr>
+        <th>City</th>
+        <td>{{ event.City }}</td>
+      </tr>
+      <tr>
+        <th>State</th>
+        <td>{{ event.State }}</td>
+      </tr>
+      <tr>
+        <th>Total Guest</th>
+        <td>
+          {{event.GuestOnline.length+event.GuestOffline.length}}
+        </td>
+      </tr>
+      <!-- <tr>
+        <th></th>
+        <td></td>
+      </tr>
+
+      <tr>
+        <th></th>
+        <td></td>
+      </tr>
+      <tr>
+        <th></th>
+        <td></td>
+      </tr>
+      <tr>
+        <th></th>
+        <td></td>
+      </tr> -->
+    </table>
+  </div>
+
+  <div class="col-md-8">
+
+    <div class="card-deck">
+
+      <div class="card bg-info text-white rounded-0">
+        <div class="d-block text-center p-2"><i class="fa fa-user fa-5x"></i></div>
+        <h5 class="card-title text-center">Host <span class="badge badge-warning">{{ event.Host.length }}</span></h5>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item text-dark pl-1 pr-1" *ngFor="let item of event.Host">
+            <p class="d-block m-0">
+              <span class="d-block"> {{ item.Name }}
+                <span class="badge badge-info float-right"> {{ item.Designation }}</span>
+              </span>
+            </p>
+          </li>
+        </ul>
+        <div class="card-body"></div>
+        <div class="card-footer text-center">
+            <a href="#" class="card-link text-white" title="Add New Host to List"> <i class="fa fa-plus"></i></a>
+            <a href="#" class="card-link text-white" title="View Hosts Details"> <i class="fa fa-eye"></i></a>
+            <a href="#" class="card-link text-white" title="Download Host Details"> <i class="fa fa-download"></i></a>
+            <a href="#" class="card-link text-white" title="Send SMS to Host"> <i class="fa fa-envelope"></i></a>
+        </div>
+
+      </div>
+
+
+      <div class="card bg-success text-white rounded-0">
+        <div class="d-block text-center p-2"><i class="fa fa-users fa-5x"></i></div>
+        <h5 class="card-title text-center">Guest <span class="badge badge-info">
+            {{event.GuestOnline.length+event.GuestOffline.length}}</span> </h5>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item text-dark pl-1 pr-1">
+            <p class="d-block m-0">
+              <span class="d-block"> Offline
+                <span class="badge badge-info float-right"> {{ event.GuestOffline.length }}</span>
+              </span>
+            </p>
+          </li>
+          <li class="list-group-item text-dark pl-1 pr-1">
+            <p class="d-block m-0">
+              <span class="d-block"> Online
+                <span class="badge badge-info float-right"> {{ event.GuestOnline.length }}</span>
+              </span>
+            </p>
+          </li>
+        </ul>
+        <div class="card-body"></div>
+        <div class="card-footer text-center">
+            <a href="#" class="card-link text-white" title="Add New Guest to List"> <i class="fa fa-plus"></i></a>
+            <a href="#" class="card-link text-white" title="View Guests List"> <i class="fa fa-eye"></i></a>
+            <a href="#" class="card-link text-white" title="Download Guests List"> <i class="fa fa-download"></i></a>
+            <a href="#" class="card-link text-white" title="Send SMS to Guests"> <i class="fa fa-envelope"></i></a>
+        </div>
+      </div>
+
+      <div class="card bg-warning text-white rounded-0">
+        <div class="d-block text-center p-2"><i class="fa fa-gift fa-5x" aria-hidden="true"></i></div>
+        <h5 class="card-title text-center">Gift <span class="badge badge-info">
+            {{event.GuestOnline.length+event.GuestOffline.length}}</span> </h5>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item text-dark pl-1 pr-1">
+            <p class="d-block m-0">
+              <span class="d-block">Receive Gift
+                <span class="badge badge-info float-right"> {{ event.GuestOffline.length }}</span>
+              </span>
+            </p>
+          </li>
+          <li class="list-group-item text-dark pl-1 pr-1">
+            <p class="d-block m-0">
+              <span class="d-block"> Return Gift
+                <span class="badge badge-info float-right"> {{ event.GuestOnline.length }}</span>
+              </span>
+            </p>
+          </li>
+        </ul>
+        <div class="card-body"></div>
+        <div class="card-footer text-center">
+            <a href="#" class="card-link text-white" title="Add New Gifts"> <i class="fa fa-plus"></i></a>
+            <a href="#" class="card-link text-white" title="View Gifts Details"> <i class="fa fa-eye"></i></a>
+            <a href="#" class="card-link text-white" title="Download Gifts Details"> <i class="fa fa-download"></i></a>
+            <!-- <a href="#" class="card-link text-white" title="Send SMS to Guests"> <i class="fa fa-envelope"></i></a> -->
+        </div>
+      </div>
+
+    </div>
+
+
+    <!--================================================Media================================================-->
+    <div class="card mt-5 rounded-0">
+      <div class="card-body pl-0 pr-0">
+        <h5 class="card-title pl-3">Medias</h5>
+        <ul class="nav nav-tabs bg-light" id="myTab" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" id="cover-tab" data-toggle="tab" href="#cover" role="tab" aria-controls="cover"
+              aria-selected="true">Event Cover</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="avatar-tab" data-toggle="tab" href="#avatar" role="tab" aria-controls="avatar"
+              aria-selected="false">Star Avatar</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact"
+              aria-selected="false">video</a>
+          </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+          <div class="tab-pane fade show active" id="cover" role="tabpanel" aria-labelledby="cover-tab">
+
+            <div class="container mt-3">
+              <form>
+                <div class="row">
+                  <div class="col-md-10">
+
+                    <div class="custom-file">
+                      <input type="file" class="custom-file-input" id="customFile">
+                      <label class="custom-file-label" for="customFile">Choose file</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-2">
+                    <input class="btn btn-info" type="submit" value="Upload" />
+                  </div>
+
+                </div>
+              </form>
+
+              <div class="row mt-3">
+                <div class="col-12">
+                  <h3>Uploaded Cover Photo</h3>
+                  <hr>
+                </div>
+                <div class="col-md-4">
+                  <media-thumbnail></media-thumbnail>
+                </div>
+                <div class="col-md-4">
+                  <media-thumbnail></media-thumbnail>
+                </div>
+                <div class="col-md-4">
+                  <media-thumbnail></media-thumbnail>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+          <div class="tab-pane fade" id="avatar" role="tabpanel" aria-labelledby="avatar-tab">
+            <div class="container mt-3">
+              <form>
+                <div class="row">
+                  <div class="col-md-10">
+
+                    <div class="custom-file">
+                      <input type="file" class="custom-file-input" id="customFile">
+                      <label class="custom-file-label" for="customFile">Choose file</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-2">
+                    <input class="btn btn-info" type="submit" value="Upload" />
+                  </div>
+
+                </div>
+              </form>
+
+              <div class="row mt-3">
+                <div class="col-12">
+                  <h3>Uploaded Avatar</h3>
+                  <hr>
+                </div>
+                <div class="col-md-4">
+                  <media-thumbnail></media-thumbnail>
+                </div>
+                <div class="col-md-4">
+                  <media-thumbnail></media-thumbnail>
+                </div>
+                <div class="col-md-4">
+                  <media-thumbnail></media-thumbnail>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+          <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+
+            <div class="container mt-3">
+              <form>
+                <div class="row">
+                  <div class="form-group col-md-10">
+                    <input type="text" placeholder="Enter the Video Id of youtube.com" class="form-control" id="VideoId">
+                  </div>
+                  <div class="col-md-2">
+                    <input class="btn btn-info" type="submit" value="Save" />
+                  </div>
+
+                </div>
+              </form>
+
+              <div class="row">
+                  <div class="col-12">
+                      <h3>Uploaded Video</h3>
+                      <hr>
+                    </div>
+                <div class="col-12">
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/zpOULjyy-n8?rel=0" allowfullscreen></iframe>
+                      </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <!--================================================Media End================================================-->
+
+    </div>
+  </div>

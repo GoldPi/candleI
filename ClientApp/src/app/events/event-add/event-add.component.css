@@ -1,0 +1,7 @@
+.preview-container{
+position: fixed;
+z-index: 111;
+min-height: 300px;
+min-width: 100%;
+border: 1px solid #fff234;
+}

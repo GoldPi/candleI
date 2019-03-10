@@ -1,0 +1,48 @@
+<div class="row pt-4">
+    <div class="col-12">
+        <h2>Guest List for Event Name <span class="badge badge-primary">100</span> <button title="Add New Guest" class="btn btn-success pull-right" routerLinkActive="router-link-active" [routerLink]="['add']" ><i class="fa fa-user-plus" aria-hidden="true"></i></button></h2>
+        <div class="clearfix"></div>
+
+        <h2>Guest List for Event Name <span class="badge badge-primary">100</span> <button title="Add New Guest" class="btn btn-success pull-right" routerLinkActive="router-link-active" [routerLink]="['designation']" ><i class="fa fa-user-plus" aria-hidden="true"></i>Degisgnation</button></h2>
+
+      </div>
+  </div>
+<table class="table table-striped table-bordered table-compact">
+  <thead class="thead-dark">
+  <tr>
+    <th>Name</th>
+    <th>Designation</th>
+    <th>Mobile No.</th>
+    <th>Email</th>
+    <th>City</th>
+    <th>State</th>
+    <th>Attend Mode</th>
+    <th>People Type</th>
+
+  </tr>
+</thead>
+  <tr>
+    <td colspan="9">
+
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="Search">
+            <i class="fa fa-search" aria-hidden="true"></i>
+          </span>
+        </div>
+        <input [(ngModel)]="search" type="text" class="form-control" placeholder="Type your keyword" aria-label="Search" aria-describedby="Search">
+      </div>
+    </td>
+
+  </tr>
+  <tr *ngFor="let item of list | filterBy : {Name : search }">
+      <td>{{item.Name}}</td>
+      <td>{{item.Designation}}</td>
+      <td>{{item.MobileNo}}</td>
+      <td>{{item.Email}}</td>
+      <td>{{item.City}}</td>
+      <td>{{item.State}}</td>
+      <td>{{item.EventAttendMode}}</td>
+      <td>{{item.PersonNature}}</td>
+  </tr>
+</table>

@@ -1,6 +1,15 @@
-<body>
-  <app-nav-menu></app-nav-menu>
-  <div class="container">
-    <router-outlet></router-outlet>
+
+<app-header *ngIf="show"></app-header>
+<ngx-ui-loader [loaderId]="'loader-01'" [fgsType]="SPINNER.wanderingCubes"></ngx-ui-loader>
+<div class="container-fluid">
+  <div class="row">
+      <app-sidebar  *ngIf="show">
+        
+      </app-sidebar>
+      <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+          <router-outlet></router-outlet>
+      </main>
   </div>
-</body>
+
+</div>
+<notifier-container></notifier-container>

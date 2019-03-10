@@ -1,0 +1,47 @@
+<h2>Events <button title="Add New Event" class="btn btn-success pull-right" [routerLink]="['add']" ><i class="fa fa-plus" aria-hidden="true"></i> New</button><button title="Add New Event" class="btn btn-success pull-right" (click)="openNewDialog()" ><i class="fa fa-plus" aria-hidden="true"></i> New</button></h2>
+<div class="clearfix"></div>
+<table class="table table-striped table-bordered">
+  <thead class="thead-dark">
+  <tr>
+    <th>Event Name</th>
+    <th>Host</th>
+    <th>On Date</th>
+    <th>Action</th>
+  </tr>
+</thead>
+  <tr>
+    <td colspan="4">
+
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="Search"><i class="fa fa-search" aria-hidden="true"></i></span>
+        </div>
+        <input [(ngModel)]="search" type="text" class="form-control" placeholder="Type your keyword" aria-label="Search" aria-describedby="Search">
+      </div>
+    </td>
+
+  </tr>
+  <tr *ngFor="let item of events | filterBy : {Title :search } ">
+      <td>{{item.Title}}</td>
+      <td>{{item.Host.Name}}</td>
+      <td>{{item.OnDate}}</td>
+      <td class="text-right">
+        <div class="btn-group" role="group" aria-label="Basic example">
+        <button type="button" title="Details" class="btn btn-info btn-sm" [routerLink]="['selected', item.Id]" > <i class="fa fa-eye"></i></button>
+        <button type="button" title="Delete" class="btn btn-danger btn-sm" [routerLink]="['selected', item.Id]" > <i class="fa fa-remove"></i></button>
+     </div>
+      </td>
+
+      </tr>
+</table>
+<button (click)="htmlInsideModal.open()">Raw HTML inside modal</button>
+
+  <modal #htmlInsideModal>
+    <ng-template #modalHeader><h2></h2></ng-template>
+    <ng-template #modalBody>
+      <app-event-add></app-event-add>
+    </ng-template>
+  </modal>
+
+
+
