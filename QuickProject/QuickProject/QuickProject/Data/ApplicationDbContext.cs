@@ -55,11 +55,13 @@ namespace QuickProject.Data
                     var val = ((IEntity<string>)id.Entity);
                     if (id.State == EntityState.Added)
                     {
+
                         val.Id = Guid.NewGuid().ToString();
                         val.CreatedByUserId = User;
                         val.CreatedOn = DateTime.UtcNow;
                         val.UpdateByUserId = val.CreatedByUserId;
                         val.UpdateOn = val.CreatedOn;
+                       
                     }
                     if (id.State == EntityState.Modified)
                     {
