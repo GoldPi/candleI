@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28010.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "candleI", "candleI.csproj", "{F7CB19DE-6539-472D-B3CE-5BD7DC5C634F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicModule", "..\BasicModule\BasicModule.csproj", "{8B259132-C0DA-40B3-AA8E-EAA42385E470}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{F7CB19DE-6539-472D-B3CE-5BD7DC5C634F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F7CB19DE-6539-472D-B3CE-5BD7DC5C634F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F7CB19DE-6539-472D-B3CE-5BD7DC5C634F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B259132-C0DA-40B3-AA8E-EAA42385E470}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B259132-C0DA-40B3-AA8E-EAA42385E470}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B259132-C0DA-40B3-AA8E-EAA42385E470}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B259132-C0DA-40B3-AA8E-EAA42385E470}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
