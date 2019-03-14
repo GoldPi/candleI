@@ -1,0 +1,107 @@
+﻿@model IEnumerable<EntityModel.AppliedCourse>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.AcadamicYear)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Fee)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ScholarShipDeduction)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CourseName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Fees)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DurationInDays)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Details)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedOn)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UpdateOn)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedByUserId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UpdateByUserId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsDeleted)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CommentThread)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.AcadamicYear.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Fee)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ScholarShipDeduction)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CourseName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Fees)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DurationInDays)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Details)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedOn)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UpdateOn)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedByUserId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UpdateByUserId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsDeleted)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CommentThread.Id)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
