@@ -48,7 +48,7 @@ namespace QuickProject.Controllers
         // GET: AcadamicYear/Create
         public IActionResult Create()
         {
-            ViewData["CommentThreadId"] = new SelectList(_context.CommentThreads, "Id", "Id");
+           
             return View();
         }
 
@@ -57,7 +57,7 @@ namespace QuickProject.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,StartDate,EndDate,Id,CreatedOn,UpdateOn,CreatedByUserId,UpdateByUserId,IsDeleted,CommentThreadId")] AcadamicYear acadamicYear)
+        public async Task<IActionResult> Create([Bind("Name,StartDate,EndDate")] AcadamicYear acadamicYear)
         {
             if (ModelState.IsValid)
             {
@@ -65,7 +65,7 @@ namespace QuickProject.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CommentThreadId"] = new SelectList(_context.CommentThreads, "Id", "Id", acadamicYear.CommentThreadId);
+          
             return View(acadamicYear);
         }
 
@@ -82,7 +82,7 @@ namespace QuickProject.Controllers
             {
                 return NotFound();
             }
-            ViewData["CommentThreadId"] = new SelectList(_context.CommentThreads, "Id", "Id", acadamicYear.CommentThreadId);
+           
             return View(acadamicYear);
         }
 
@@ -91,7 +91,7 @@ namespace QuickProject.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Name,StartDate,EndDate,Id,CreatedOn,UpdateOn,CreatedByUserId,UpdateByUserId,IsDeleted,CommentThreadId")] AcadamicYear acadamicYear)
+        public async Task<IActionResult> Edit(string id, [Bind("Name,StartDate,EndDate,Id")] AcadamicYear acadamicYear)
         {
             if (id != acadamicYear.Id)
             {
@@ -118,7 +118,7 @@ namespace QuickProject.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CommentThreadId"] = new SelectList(_context.CommentThreads, "Id", "Id", acadamicYear.CommentThreadId);
+          
             return View(acadamicYear);
         }
 
