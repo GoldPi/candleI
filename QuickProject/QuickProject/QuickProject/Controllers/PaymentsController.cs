@@ -7,22 +7,31 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using EntityModel;
 using QuickProject.Data;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace QuickProject.Controllers
 {
     public class PaymentsController : Controller
     {
         private readonly ApplicationDbContext _context;
-
+        private string UserId;
         public PaymentsController(ApplicationDbContext context)
         {
             _context = context;
         }
-
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            if (!context.HttpContext.Request.Query.Any(i => i.Key == "userid"))
+                context.Result = Redirect("Students");
+            else
+                UserId = context.HttpContext.Request.Query.FirstOrDefault(i => i.Key == "userid").Value;
+            ViewData["userid"] = UserId;
+            base.OnActionExecuting(context);
+        }
         // GET: Payments
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Payments.Include(p => p.CommentThread).Include(p => p.Student).Include(p => p.Transcation);
+            var applicationDbContext = _context.Payments.Where(i=>i.StudentId==UserId).Include(p => p.CommentThread).Include(p => p.Student).Include(p => p.Transcation);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -50,10 +59,8 @@ namespace QuickProject.Controllers
         // GET: Payments/Create
         public IActionResult Create()
         {
-            ViewData["CommentThreadId"] = new SelectList(_context.CommentThreads, "Id", "Id");
-            ViewData["StudentId"] = new SelectList(_context.Students, "Id", "Id");
-            ViewData["TranscationId"] = new SelectList(_context.Transcations, "Id", "Id");
-            return View();
+            
+            return View(new Payments { StudentId=UserId});
         }
 
         // POST: Payments/Create
@@ -61,17 +68,15 @@ namespace QuickProject.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("TranscationId,StudentId,PaidAmount,PaymentType,Id,CreatedOn,UpdateOn,CreatedByUserId,UpdateByUserId,IsDeleted,CommentThreadId")] Payments payments)
+        public async Task<IActionResult> Create([Bind("TranscationId,StudentId,PaidAmount,PaymentType")] Payments payments)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(payments);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { UserId });
             }
-            ViewData["CommentThreadId"] = new SelectList(_context.CommentThreads, "Id", "Id", payments.CommentThreadId);
-            ViewData["StudentId"] = new SelectList(_context.Students, "Id", "Id", payments.StudentId);
-            ViewData["TranscationId"] = new SelectList(_context.Transcations, "Id", "Id", payments.TranscationId);
+          
             return View(payments);
         }
 
@@ -88,9 +93,7 @@ namespace QuickProject.Controllers
             {
                 return NotFound();
             }
-            ViewData["CommentThreadId"] = new SelectList(_context.CommentThreads, "Id", "Id", payments.CommentThreadId);
-            ViewData["StudentId"] = new SelectList(_context.Students, "Id", "Id", payments.StudentId);
-            ViewData["TranscationId"] = new SelectList(_context.Transcations, "Id", "Id", payments.TranscationId);
+           
             return View(payments);
         }
 
@@ -99,7 +102,7 @@ namespace QuickProject.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("TranscationId,StudentId,PaidAmount,PaymentType,Id,CreatedOn,UpdateOn,CreatedByUserId,UpdateByUserId,IsDeleted,CommentThreadId")] Payments payments)
+        public async Task<IActionResult> Edit(string id, [Bind("TranscationId,StudentId,PaidAmount,PaymentType,Id")] Payments payments)
         {
             if (id != payments.Id)
             {
@@ -124,11 +127,9 @@ namespace QuickProject.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { UserId });
             }
-            ViewData["CommentThreadId"] = new SelectList(_context.CommentThreads, "Id", "Id", payments.CommentThreadId);
-            ViewData["StudentId"] = new SelectList(_context.Students, "Id", "Id", payments.StudentId);
-            ViewData["TranscationId"] = new SelectList(_context.Transcations, "Id", "Id", payments.TranscationId);
+           
             return View(payments);
         }
 

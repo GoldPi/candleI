@@ -18,4 +18,11 @@
     <ProjectReference Include="..\EntityModel\EntityModel.csproj" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <Folder Include="Areas\Developer\Data\" />
+    <Folder Include="Areas\Developer\Models\" />
+    <Folder Include="Areas\Developer\Views\" />
+  </ItemGroup>
+
 </Project>

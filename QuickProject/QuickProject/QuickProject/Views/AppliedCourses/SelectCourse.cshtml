@@ -1,0 +1,42 @@
+﻿@model IEnumerable<EntityModel.Course>
+
+@{
+    ViewData["Title"] = "SelectCourse";
+}
+
+<h1>SelectCourse</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CourseName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Fees)
+            </th>
+            
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CourseName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Fees)
+            </td>
+            
+            <td>
+                <a asp-action="Create" asp-route-CourseId="@item.Id" asp-route-userid="@ViewData["userid"]">Select</a> |
+               
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

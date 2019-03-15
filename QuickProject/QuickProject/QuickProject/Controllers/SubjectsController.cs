@@ -57,7 +57,7 @@ namespace QuickProject.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,Summary,Syllabus,IsPractical,IsTheory,Id,CreatedOn,UpdateOn,CreatedByUserId,UpdateByUserId,IsDeleted,CommentThreadId")] Subject subject)
+        public async Task<IActionResult> Create([Bind("Name,Summary,Syllabus,IsPractical,IsTheory")] Subject subject)
         {
             if (ModelState.IsValid)
             {
@@ -65,7 +65,6 @@ namespace QuickProject.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CommentThreadId"] = new SelectList(_context.CommentThreads, "Id", "Id", subject.CommentThreadId);
             return View(subject);
         }
 
@@ -82,7 +81,6 @@ namespace QuickProject.Controllers
             {
                 return NotFound();
             }
-            ViewData["CommentThreadId"] = new SelectList(_context.CommentThreads, "Id", "Id", subject.CommentThreadId);
             return View(subject);
         }
 
@@ -91,7 +89,7 @@ namespace QuickProject.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Name,Summary,Syllabus,IsPractical,IsTheory,Id,CreatedOn,UpdateOn,CreatedByUserId,UpdateByUserId,IsDeleted,CommentThreadId")] Subject subject)
+        public async Task<IActionResult> Edit(string id, [Bind("Name,Summary,Syllabus,IsPractical,IsTheory")] Subject subject)
         {
             if (id != subject.Id)
             {
@@ -118,7 +116,6 @@ namespace QuickProject.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CommentThreadId"] = new SelectList(_context.CommentThreads, "Id", "Id", subject.CommentThreadId);
             return View(subject);
         }
 

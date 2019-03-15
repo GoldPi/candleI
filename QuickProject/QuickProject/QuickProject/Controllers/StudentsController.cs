@@ -38,6 +38,8 @@ namespace QuickProject.Controllers
                 .Include(s => s.CommentThread)
                 .Include(s => s.Father)
                 .Include(s => s.Mother)
+                .Include(s=> s.Courses)
+                .Include(s=> s.Payments)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (student == null)
             {
@@ -50,9 +52,7 @@ namespace QuickProject.Controllers
         // GET: Students/Create
         public IActionResult Create()
         {
-            ViewData["CommentThreadId"] = new SelectList(_context.CommentThreads, "Id", "Id");
-            ViewData["FatherId"] = new SelectList(_context.People, "Id", "Id");
-            ViewData["MotherId"] = new SelectList(_context.People, "Id", "Id");
+           
             return View();
         }
 
@@ -61,7 +61,7 @@ namespace QuickProject.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("EnrollmentNumber,MotherId,FatherId,FirstName,MiddleName,LastName,Title,Email,PhoneNumber,MobileNumber,Address_1,Address_2,City,State,Country,PostalCode,FaxNumber,Comments_Summary,Id,CreatedOn,UpdateOn,CreatedByUserId,UpdateByUserId,IsDeleted,CommentThreadId")] Student student)
+        public async Task<IActionResult> Create([Bind("EnrollmentNumber,FirstName,MiddleName,LastName,Title,Email,PhoneNumber,MobileNumber,Address_1,Address_2,City,State,Country,PostalCode,FaxNumber,Comments_Summary")] Student student)
         {
             if (ModelState.IsValid)
             {
@@ -69,9 +69,7 @@ namespace QuickProject.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CommentThreadId"] = new SelectList(_context.CommentThreads, "Id", "Id", student.CommentThreadId);
-            ViewData["FatherId"] = new SelectList(_context.People, "Id", "Id", student.FatherId);
-            ViewData["MotherId"] = new SelectList(_context.People, "Id", "Id", student.MotherId);
+          
             return View(student);
         }
 
@@ -88,9 +86,7 @@ namespace QuickProject.Controllers
             {
                 return NotFound();
             }
-            ViewData["CommentThreadId"] = new SelectList(_context.CommentThreads, "Id", "Id", student.CommentThreadId);
-            ViewData["FatherId"] = new SelectList(_context.People, "Id", "Id", student.FatherId);
-            ViewData["MotherId"] = new SelectList(_context.People, "Id", "Id", student.MotherId);
+          
             return View(student);
         }
 
@@ -99,7 +95,7 @@ namespace QuickProject.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("EnrollmentNumber,MotherId,FatherId,FirstName,MiddleName,LastName,Title,Email,PhoneNumber,MobileNumber,Address_1,Address_2,City,State,Country,PostalCode,FaxNumber,Comments_Summary,Id,CreatedOn,UpdateOn,CreatedByUserId,UpdateByUserId,IsDeleted,CommentThreadId")] Student student)
+        public async Task<IActionResult> Edit(string id, [Bind("EnrollmentNumber,FirstName,MiddleName,LastName,Title,Email,PhoneNumber,MobileNumber,Address_1,Address_2,City,State,Country,PostalCode,FaxNumber,Comments_Summary,Id")] Student student)
         {
             if (id != student.Id)
             {
@@ -126,9 +122,7 @@ namespace QuickProject.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CommentThreadId"] = new SelectList(_context.CommentThreads, "Id", "Id", student.CommentThreadId);
-            ViewData["FatherId"] = new SelectList(_context.People, "Id", "Id", student.FatherId);
-            ViewData["MotherId"] = new SelectList(_context.People, "Id", "Id", student.MotherId);
+           
             return View(student);
         }
 

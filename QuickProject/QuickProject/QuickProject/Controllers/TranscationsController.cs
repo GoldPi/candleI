@@ -48,7 +48,6 @@ namespace QuickProject.Controllers
         // GET: Transcations/Create
         public IActionResult Create()
         {
-            ViewData["CommentThreadId"] = new SelectList(_context.CommentThreads, "Id", "Id");
             return View();
         }
 
@@ -57,7 +56,7 @@ namespace QuickProject.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PaymentGateWay,TranscationDate,Amount,Response,Succeeded,IsRefund,Id,CreatedOn,UpdateOn,CreatedByUserId,UpdateByUserId,IsDeleted,CommentThreadId")] Transcation transcation)
+        public async Task<IActionResult> Create([Bind("PaymentGateWay,TranscationDate,Amount,Response,Succeeded,IsRefund")] Transcation transcation)
         {
             if (ModelState.IsValid)
             {
@@ -65,7 +64,6 @@ namespace QuickProject.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CommentThreadId"] = new SelectList(_context.CommentThreads, "Id", "Id", transcation.CommentThreadId);
             return View(transcation);
         }
 
@@ -82,7 +80,6 @@ namespace QuickProject.Controllers
             {
                 return NotFound();
             }
-            ViewData["CommentThreadId"] = new SelectList(_context.CommentThreads, "Id", "Id", transcation.CommentThreadId);
             return View(transcation);
         }
 
@@ -118,7 +115,6 @@ namespace QuickProject.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CommentThreadId"] = new SelectList(_context.CommentThreads, "Id", "Id", transcation.CommentThreadId);
             return View(transcation);
         }
 

@@ -48,7 +48,6 @@ namespace QuickProject.Controllers
         // GET: TenantProfiles/Create
         public IActionResult Create()
         {
-            ViewData["CommentThreadId"] = new SelectList(_context.CommentThreads, "Id", "Id");
             return View();
         }
 
@@ -57,7 +56,7 @@ namespace QuickProject.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,Host,Module,Id,CreatedOn,UpdateOn,CreatedByUserId,UpdateByUserId,IsDeleted,CommentThreadId")] TenantProfile tenantProfile)
+        public async Task<IActionResult> Create([Bind("Name,Host,Module")] TenantProfile tenantProfile)
         {
             if (ModelState.IsValid)
             {
@@ -65,7 +64,6 @@ namespace QuickProject.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CommentThreadId"] = new SelectList(_context.CommentThreads, "Id", "Id", tenantProfile.CommentThreadId);
             return View(tenantProfile);
         }
 
@@ -82,7 +80,6 @@ namespace QuickProject.Controllers
             {
                 return NotFound();
             }
-            ViewData["CommentThreadId"] = new SelectList(_context.CommentThreads, "Id", "Id", tenantProfile.CommentThreadId);
             return View(tenantProfile);
         }
 
@@ -91,7 +88,7 @@ namespace QuickProject.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Name,Host,Module,Id,CreatedOn,UpdateOn,CreatedByUserId,UpdateByUserId,IsDeleted,CommentThreadId")] TenantProfile tenantProfile)
+        public async Task<IActionResult> Edit(string id, [Bind("Name,Host,Module,Id")] TenantProfile tenantProfile)
         {
             if (id != tenantProfile.Id)
             {
@@ -118,7 +115,6 @@ namespace QuickProject.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CommentThreadId"] = new SelectList(_context.CommentThreads, "Id", "Id", tenantProfile.CommentThreadId);
             return View(tenantProfile);
         }
 

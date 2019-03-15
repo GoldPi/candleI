@@ -57,7 +57,7 @@ namespace QuickProject.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("FirstName,MiddleName,LastName,Title,Email,PhoneNumber,MobileNumber,Address_1,Address_2,City,State,Country,PostalCode,FaxNumber,Comments_Summary,Id,CreatedOn,UpdateOn,CreatedByUserId,UpdateByUserId,IsDeleted,CommentThreadId")] Person person)
+        public async Task<IActionResult> Create([Bind("FirstName,MiddleName,LastName,Title,Email,PhoneNumber,MobileNumber,Address_1,Address_2,City,State,Country,PostalCode,FaxNumber,Comments_Summary")] Person person)
         {
             if (ModelState.IsValid)
             {
@@ -65,7 +65,6 @@ namespace QuickProject.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CommentThreadId"] = new SelectList(_context.CommentThreads, "Id", "Id", person.CommentThreadId);
             return View(person);
         }
 
@@ -82,7 +81,6 @@ namespace QuickProject.Controllers
             {
                 return NotFound();
             }
-            ViewData["CommentThreadId"] = new SelectList(_context.CommentThreads, "Id", "Id", person.CommentThreadId);
             return View(person);
         }
 
@@ -91,7 +89,7 @@ namespace QuickProject.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("FirstName,MiddleName,LastName,Title,Email,PhoneNumber,MobileNumber,Address_1,Address_2,City,State,Country,PostalCode,FaxNumber,Comments_Summary,Id,CreatedOn,UpdateOn,CreatedByUserId,UpdateByUserId,IsDeleted,CommentThreadId")] Person person)
+        public async Task<IActionResult> Edit(string id, [Bind("FirstName,MiddleName,LastName,Title,Email,PhoneNumber,MobileNumber,Address_1,Address_2,City,State,Country,PostalCode,FaxNumber,Comments_Summary,Id")] Person person)
         {
             if (id != person.Id)
             {
@@ -118,7 +116,6 @@ namespace QuickProject.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CommentThreadId"] = new SelectList(_context.CommentThreads, "Id", "Id", person.CommentThreadId);
             return View(person);
         }
 

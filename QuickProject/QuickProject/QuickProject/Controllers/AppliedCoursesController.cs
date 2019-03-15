@@ -7,22 +7,40 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using EntityModel;
 using QuickProject.Data;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace QuickProject.Controllers
 {
     public class AppliedCoursesController : Controller
     {
         private readonly ApplicationDbContext _context;
-
+        private string UserId;
         public AppliedCoursesController(ApplicationDbContext context)
         {
             _context = context;
+        }
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            if (!context.HttpContext.Request.Query.Any(i => i.Key == "userid"))
+                context.Result = Redirect("Students");
+            else
+                UserId = context.HttpContext.Request.Query.FirstOrDefault(i => i.Key == "userid").Value;
+            ViewData["userid"] = UserId;
+            base.OnActionExecuting(context);
+        }
+
+
+        public async Task<IActionResult> SelectCourse()
+        {
+            var applicationDbContext = _context.Courses.Include(c => c.CommentThread);
+            return View(await applicationDbContext.ToListAsync());
         }
 
         // GET: AppliedCourses
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.AppliedCourses.Include(a => a.CommentThread).Include(a => a.AcadamicYear);
+            
+            var applicationDbContext = _context.AppliedCourses.Where(i=>i.StudentId==UserId).Include(a => a.CommentThread).Include(a => a.AcadamicYear);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -47,11 +65,11 @@ namespace QuickProject.Controllers
         }
 
         // GET: AppliedCourses/Create
-        public IActionResult Create()
+        public IActionResult Create(string CourseId)
         {
-            ViewData["CommentThreadId"] = new SelectList(_context.CommentThreads, "Id", "Id");
-            ViewData["AcadamicYearId"] = new SelectList(_context.AcadamicYears, "Id", "Id");
-            return View();
+            ViewData["AcadamicYearId"] = new SelectList(_context.AcadamicYears, "Id", "Name");
+            var course = _context.Courses.FirstOrDefault(i => i.Id == CourseId);
+            return View( new AppliedCourse { StudentId=UserId, DurationInDays =course.DurationInDays, Fees=course.Fees, Fee =course.Fees, CourseName=course.CourseName , Details=course.Details});
         }
 
         // POST: AppliedCourses/Create
@@ -59,16 +77,15 @@ namespace QuickProject.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("StudentId,AcadamicYearId,Fee,ScholarShipDeduction,CourseName,Fees,DurationInDays,Details,Id,CreatedOn,UpdateOn,CreatedByUserId,UpdateByUserId,IsDeleted,CommentThreadId")] AppliedCourse appliedCourse)
+        public async Task<IActionResult> Create([Bind("StudentId,AcadamicYearId,Fee,ScholarShipDeduction,CourseName,Fees,DurationInDays,Details,Id")] AppliedCourse appliedCourse)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(appliedCourse);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index),new { UserId });
             }
-            ViewData["CommentThreadId"] = new SelectList(_context.CommentThreads, "Id", "Id", appliedCourse.CommentThreadId);
-            ViewData["AcadamicYearId"] = new SelectList(_context.AcadamicYears, "Id", "Id", appliedCourse.AcadamicYearId);
+            
             return View(appliedCourse);
         }
 
@@ -85,8 +102,7 @@ namespace QuickProject.Controllers
             {
                 return NotFound();
             }
-            ViewData["CommentThreadId"] = new SelectList(_context.CommentThreads, "Id", "Id", appliedCourse.CommentThreadId);
-            ViewData["AcadamicYearId"] = new SelectList(_context.AcadamicYears, "Id", "Id", appliedCourse.AcadamicYearId);
+            ViewData["AcadamicYearId"] = new SelectList(_context.AcadamicYears, "Id", "Name", appliedCourse.AcadamicYearId);
             return View(appliedCourse);
         }
 
@@ -95,7 +111,7 @@ namespace QuickProject.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("StudentId,AcadamicYearId,Fee,ScholarShipDeduction,CourseName,Fees,DurationInDays,Details,Id,CreatedOn,UpdateOn,CreatedByUserId,UpdateByUserId,IsDeleted,CommentThreadId")] AppliedCourse appliedCourse)
+        public async Task<IActionResult> Edit(string id, [Bind("StudentId,AcadamicYearId,Fee,ScholarShipDeduction,CourseName,Fees,DurationInDays,Details,Id")] AppliedCourse appliedCourse)
         {
             if (id != appliedCourse.Id)
             {
@@ -120,10 +136,9 @@ namespace QuickProject.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { UserId });
             }
-            ViewData["CommentThreadId"] = new SelectList(_context.CommentThreads, "Id", "Id", appliedCourse.CommentThreadId);
-            ViewData["AcadamicYearId"] = new SelectList(_context.AcadamicYears, "Id", "Id", appliedCourse.AcadamicYearId);
+            ViewData["AcadamicYearId"] = new SelectList(_context.AcadamicYears, "Id", "Name", appliedCourse.AcadamicYearId);
             return View(appliedCourse);
         }
 
@@ -155,7 +170,7 @@ namespace QuickProject.Controllers
             var appliedCourse = await _context.AppliedCourses.FindAsync(id);
             _context.AppliedCourses.Remove(appliedCourse);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index), new { UserId });
         }
 
         private bool AppliedCourseExists(string id)

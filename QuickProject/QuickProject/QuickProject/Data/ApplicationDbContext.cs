@@ -52,7 +52,7 @@ namespace QuickProject.Data
                 try
                 {
 
-                    var val = ((IEntity<string>)id.Entity);
+                    var val = ((BaseEntity<string>)id.Entity);
                     if (id.State == EntityState.Added)
                     {
 
@@ -61,17 +61,23 @@ namespace QuickProject.Data
                         val.CreatedOn = DateTime.UtcNow;
                         val.UpdateByUserId = val.CreatedByUserId;
                         val.UpdateOn = val.CreatedOn;
+                        val.IsDeleted = false;
+                        
                        
                     }
                     if (id.State == EntityState.Modified)
                     {
-                        var values = id.GetDatabaseValues();
-                        val.CreatedByUserId = values.GetValue<string>("CreatedByUserId");
-                        val.CreatedOn = values.GetValue<DateTime>("CreatedOn");
+                        Entry(val).Property(i => i.CommentThreadId).IsModified = false;
+                        Entry(val).Property(i => i.CreatedByUserId).IsModified = false;
+                        Entry(val).Property(i => i.CreatedOn).IsModified = false;
+                        Entry(val).Property(i => i.IsDeleted).IsModified = false;
                         val.UpdateByUserId = User;
                         val.UpdateOn = DateTime.UtcNow;
+                       
+                     
+                       
                     }
-                    Console.Clear();
+                    //Console.Clear();
                     Console.WriteLine($"Entity {id.Entity.GetType()} => {id.State} => {val.Id} on {val.UpdateOn}");
                 }
                 catch
