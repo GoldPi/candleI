@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QuickProject.Data;
 
 namespace QuickProject.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190315172722_Course_changes")]
+    partial class Course_changes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -236,6 +238,9 @@ namespace QuickProject.Data.Migrations
 
                     b.Property<DateTime>("CreatedOn");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired();
+
                     b.Property<string>("Email");
 
                     b.Property<string>("FaxNumber");
@@ -267,70 +272,8 @@ namespace QuickProject.Data.Migrations
                     b.HasIndex("CommentThreadId");
 
                     b.ToTable("People");
-                });
 
-            modelBuilder.Entity("EntityModel.Student", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Address_1");
-
-                    b.Property<string>("Address_2");
-
-                    b.Property<string>("City");
-
-                    b.Property<string>("CommentThreadId");
-
-                    b.Property<string>("Comments_Summary");
-
-                    b.Property<string>("Country");
-
-                    b.Property<string>("CreatedByUserId");
-
-                    b.Property<DateTime>("CreatedOn");
-
-                    b.Property<string>("Email");
-
-                    b.Property<string>("EnrollmentNumber");
-
-                    b.Property<string>("FatherId");
-
-                    b.Property<string>("FaxNumber");
-
-                    b.Property<string>("FirstName");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<string>("LastName");
-
-                    b.Property<string>("MiddleName");
-
-                    b.Property<string>("MobileNumber");
-
-                    b.Property<string>("MotherId");
-
-                    b.Property<string>("PhoneNumber");
-
-                    b.Property<string>("PostalCode");
-
-                    b.Property<string>("State");
-
-                    b.Property<string>("Title");
-
-                    b.Property<string>("UpdateByUserId");
-
-                    b.Property<DateTime>("UpdateOn");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CommentThreadId");
-
-                    b.HasIndex("FatherId");
-
-                    b.HasIndex("MotherId");
-
-                    b.ToTable("Students");
+                    b.HasDiscriminator<string>("Discriminator").HasValue("Person");
                 });
 
             modelBuilder.Entity("EntityModel.Subject", b =>
@@ -606,6 +549,23 @@ namespace QuickProject.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("EntityModel.Student", b =>
+                {
+                    b.HasBaseType("EntityModel.Person");
+
+                    b.Property<string>("EnrollmentNumber");
+
+                    b.Property<string>("FatherId");
+
+                    b.Property<string>("MotherId");
+
+                    b.HasIndex("FatherId");
+
+                    b.HasIndex("MotherId");
+
+                    b.HasDiscriminator().HasValue("Student");
+                });
+
             modelBuilder.Entity("EntityModel.AcadamicYear", b =>
                 {
                     b.HasOne("EntityModel.CommentThread", "CommentThread")
@@ -666,21 +626,6 @@ namespace QuickProject.Data.Migrations
                     b.HasOne("EntityModel.CommentThread", "CommentThread")
                         .WithMany()
                         .HasForeignKey("CommentThreadId");
-                });
-
-            modelBuilder.Entity("EntityModel.Student", b =>
-                {
-                    b.HasOne("EntityModel.CommentThread", "CommentThread")
-                        .WithMany()
-                        .HasForeignKey("CommentThreadId");
-
-                    b.HasOne("EntityModel.Person", "Father")
-                        .WithMany()
-                        .HasForeignKey("FatherId");
-
-                    b.HasOne("EntityModel.Person", "Mother")
-                        .WithMany()
-                        .HasForeignKey("MotherId");
                 });
 
             modelBuilder.Entity("EntityModel.Subject", b =>
@@ -755,6 +700,17 @@ namespace QuickProject.Data.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("EntityModel.Student", b =>
+                {
+                    b.HasOne("EntityModel.Person", "Father")
+                        .WithMany()
+                        .HasForeignKey("FatherId");
+
+                    b.HasOne("EntityModel.Person", "Mother")
+                        .WithMany()
+                        .HasForeignKey("MotherId");
                 });
 #pragma warning restore 612, 618
         }
