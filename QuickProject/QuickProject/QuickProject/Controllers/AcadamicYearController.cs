@@ -20,9 +20,9 @@ namespace QuickProject.Controllers
         }
 
         // GET: AcadamicYear
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page=0,int size=30)
         {
-            var applicationDbContext = _context.AcadamicYears.Include(a => a.CommentThread);
+            var applicationDbContext = _context.AcadamicYears.OrderByDescending(i=>i.CreatedOn).Skip(page*size).Take(size);
             return View(await applicationDbContext.ToListAsync());
         }
 
