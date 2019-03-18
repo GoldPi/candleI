@@ -10,14 +10,7 @@
         
         public PaymentType PaymentType { get; set; }
     }
-    /*
-
-PaidAmount	double
-Transaction	Transaction
-Summary	string
-PaymentType	FEE-PAID,OTHER,FEE-REFUND,APPLICATION
-
-     */
+   
 
 
 }

@@ -5,89 +5,111 @@
     
 }
 
-<h1>Delete</h1>
+<div class="card">
+    <div class="card-header">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-action="index" asp-controller="Courses">Course</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Delete</li>
+            </ol>
+        </nav>
+    </div>
+    <div class="card-body">
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>Course</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.CourseName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CourseName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Fees)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Fees)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.DurationInDays)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.DurationInDays)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Details)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Details)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.CreatedOn)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CreatedOn)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.UpdateOn)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.UpdateOn)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.CreatedByUserId)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CreatedByUserId)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.UpdateByUserId)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.UpdateByUserId)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.IsDeleted)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.IsDeleted)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.CommentThread)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CommentThread.Id)
-        </dd>
-    </dl>
-    @if (this.Context.Request.Query.Any(i => i.Key == "permanentDelete"))
-    {
-        <form asp-action="Delete" asp-route-permanentDelete="true">
-            <input type="hidden" asp-for="Id" />
-            <input type="submit" value="Delete" class="btn btn-danger" /> |
-            <a asp-action="Index">Back to List</a>
-        </form>
-    }
-    else
-    {
-        <form asp-action="Delete">
-            <input type="hidden" asp-for="Id" />
-            <input type="submit" value="Delete" class="btn btn-danger" /> |
-            <a asp-action="Index">Back to List</a>
-        </form>
-    }
+
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.CourseName)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.CourseName)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Fees)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Fees)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.DurationInDays)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.DurationInDays)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Details)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Details)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.CreatedOn)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.CreatedOn)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.UpdateOn)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.UpdateOn)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.CreatedByUserId)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.CreatedByUserId)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.UpdateByUserId)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.UpdateByUserId)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.IsDeleted)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.IsDeleted)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.CommentThread)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.CommentThread.Id)
+            </dd>
+        </dl>
+        @if (this.Context.Request.Query.Any(i => i.Key == "permanentDelete"))
+        {
+            <div class="alert alert-danger">
+                <h1>Delete</h1>
+                <h3>Are you sure you want to delete this? Process Is not reversible!</h3>
+            </div>
+            <form asp-action="Delete" asp-route-permanentDelete="true">
+                <input type="hidden" asp-for="Id" />
+                <input type="submit" value="Delete" class="btn btn-danger" /> |
+                <a asp-action="Index">Back to List</a>
+            </form>
+
+        }
+        else
+        {
+            <div class="alert alert-danger">
+                <h1>Delete</h1>
+                <h3>Are you sure you want to delete this?</h3>
+            </div>
+            <form asp-action="Delete">
+                <input type="hidden" asp-for="Id" />
+                <input type="submit" value="Delete" class="btn btn-danger" /> |
+                <a asp-action="Index">Back to List</a>
+            </form>
+        }
+
+    </div>
 
 </div>
+
+
+
+
+

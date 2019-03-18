@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using EntityModel;
 using QuickProject.Data;
+using QuickProject.Helpers;
 
 namespace QuickProject.Controllers
 {
@@ -20,10 +21,10 @@ namespace QuickProject.Controllers
         }
 
         // GET: Courses
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page=0,int size=20)
         {
-            var applicationDbContext = _context.Courses.Include(c => c.CommentThread);
-            return View(await applicationDbContext.ToListAsync());
+            var applicationDbContext = _context.Courses.OrderBy(i=>i.CreatedOn);
+            return View(await Pager<Course>.CreateAsync(applicationDbContext.AsNoTracking(), page , size));
         }
 
         // GET: Courses/Details/5
